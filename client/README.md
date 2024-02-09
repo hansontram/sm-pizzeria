@@ -1,8 +1,23 @@
-# React + Vite
+# TODO - Functionality
+Pizzas:
+1. Create Post Request to add Pizza 
+2. Create PizzaCard Component
+- have state for modalOpen
+- display pizza data
+- include buttons for update & delete
+    - update button will toggle FormModal - you'll need formContent specifically for PizzaCard - create update api call
+    - delete button will delete pizza - create delete api call
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Toppings:
+3. Copy everything over and do the same for Toppings (Full CRUD)
 
-Currently, two official plugins are available:
+-------
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# TODO - Styling
+1. Update all the verbiage
+2. Make styling as you see fit - dont overdo it
+
+--------
+
+# TODO - Studying Code
+- Create a document and list notes for everything you'd feel like you'll need to explain
