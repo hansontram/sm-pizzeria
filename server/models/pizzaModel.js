@@ -11,7 +11,20 @@ const pizzasSchema = new Schema({
     type: String,
     required: true,
   },
-  toppings: [{ type: "ObjectId", required: true }],
+  toppings: [
+    {
+      type: "ObjectId",
+      required: true,
+      name: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Pizzas", pizzasSchema);
