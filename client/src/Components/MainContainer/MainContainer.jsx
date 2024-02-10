@@ -1,12 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography,Container } from "@mui/material";
 
 export default function MainContainer({ title, children }) {
   return (
-    <Box>
+    <Container>
       <Typography variant="h1" component="div">
         {title}
       </Typography>
       {children}
-    </Box>
+    </Container>
   );
 }

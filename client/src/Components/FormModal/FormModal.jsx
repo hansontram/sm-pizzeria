@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button, Box, Typography, Modal } from "@mui/material";
 
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -10,7 +11,7 @@ const style = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 4,
+  p: 4
 };
 
 export default function FormModal({
@@ -32,11 +33,11 @@ export default function FormModal({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        {/* <Box sx={style}>{formContent()}</Box> */}
+     
         <Box sx={style}>
           {formContent ? formContent() : <div>Please Provide Form Content</div>}
         </Box>
-        {/* {formContent ? <Box sx={style}>{formContent()}</Box> : <div>Hello</div>} */}
+      
       </Modal>
     </div>
   );

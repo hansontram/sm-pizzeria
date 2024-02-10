@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import { MainContainer, FormModal, PizzaCard } from "../../Components";
-import { Box, Typography, MenuItem, InputLabel, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  MenuItem,
+  InputLabel,
+  Button,
+  TextField,
+} from "@mui/material";
 import Select from "react-select";
 import { useTheme } from "@mui/material/styles";
 import { api } from "../../api";
@@ -60,21 +67,22 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
 
   const formContent = () => {
     return (
-      <>
-        <label>Pizza Name</label>
-        <input
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Typography variant="body1">Pizza Name</Typography>
+        <TextField
           type="text"
+          variant="outlined"
           onChange={(e) => setPizzaName(e.target.value)}
           value={pizzaName}
         />
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="8"
+        <Typography variant="body1">Description</Typography>
+        <TextField
+          multiline
+          rows={4}
+          variant="outlined"
           onChange={(e) => setPizzaDescription(e.target.value)}
           value={pizzaDescription}
-        ></textarea>
+        />
         <InputLabel id="demo-multiple-name-label">Choose toppings</InputLabel>
         <Select
           isMulti
@@ -85,8 +93,10 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
             return { value: topping._id, label: topping.name };
           })}
         />
-        <Button onClick={addNewPizza}>Submit</Button>
-      </>
+        <Button variant="contained" onClick={addNewPizza}>
+          Submit
+        </Button>
+      </Box>
     );
   };
 
@@ -101,6 +111,25 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
   } else {
     return (
       <MainContainer title="Pizza Dashboard">
+        <FormModal
+          formContent={formContent}
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          buttonText="Create Pizza"
+        />
+
+        <Box
+        sx={{
+          pt: 4, 
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" }, 
+          flexWrap: "wrap",
+          gap: 3
+         
+        }}
+        >
+
+      
         {pizzaData.map((pizza, index) => {
           const { name, description, toppings, _id } = pizza;
           return (
@@ -114,13 +143,7 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
             />
           );
         })}
-
-        <FormModal
-          formContent={formContent}
-          modalOpen={modalOpen}
-          setModalOpen={setModalOpen}
-          buttonText = "Create Pizza"
-        />
+        </Box>
       </MainContainer>
     );
   }

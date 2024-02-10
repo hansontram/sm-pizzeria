@@ -15,12 +15,7 @@ function App() {
     fetchPizzas();
     fetchToppings();
   }, []);
-  // useEffect(() => {
-  //   console.log(pizzaData);
-  // }, [pizzaData]);
-  // useEffect(() => {
-  //   console.log(toppingsData);
-  // }, [toppingsData]);
+
   useEffect(() => {
     console.log(role);
   }, [role]);

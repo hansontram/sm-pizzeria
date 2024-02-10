@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Button } from "@mui/material";
+import { TextField, Typography, Button, Box } from "@mui/material";
 import { MainContainer, FormModal, ToppingCard } from "../../Components";
 import { api } from "../../api";
 
@@ -10,31 +10,33 @@ export default function Toppings({ toppingsData, role }) {
 
   const formContent = () => {
     return (
-      <>
-        <label>Topping Name</label>
-        <input
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Typography variant="body1">Topping Name</Typography>
+        <TextField
           type="text"
+          variant="outlined"
           onChange={(e) => setToppingName(e.target.value)}
           value={toppingName}
         />
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="8"
+        <Typography variant="body1">Description</Typography>
+        <TextField
+          multiline
+          rows={4}
+          variant="outlined"
           onChange={(e) => setToppingDescription(e.target.value)}
           value={toppingDescription}
-        ></textarea>
-
-        <Button onClick={addNewTopping}>Submit</Button>
-      </>
+        />
+        <Button variant="contained" onClick={addNewTopping}>
+          Submit
+        </Button>
+      </Box>
     );
   };
 
   const addNewTopping = async () => {
     const body = {
       name: toppingName,
-      description: toppingDescription
+      description: toppingDescription,
     };
 
     const options = {
@@ -68,28 +70,38 @@ export default function Toppings({ toppingsData, role }) {
   } else {
     return (
       <MainContainer title="Toppings Dashboard">
-        {toppingsData.map((topping, index) => {
-          const { name, description, _id} = topping;
-          return (
-
-            <ToppingCard
-            key={index}
-            toppingId={_id}
-            name={name}
-            description={description}
-            />
-            // <div key={id}>
-            //   <p>Item: {name}</p>
-            //   <p>Description: {description}</p>
-            // </div>
-          );
-        })}
         <FormModal
           formContent={formContent}
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
-          buttonText = "Add New Topping"
+          buttonText="Add Topping"
         />
+
+        <Box
+          sx={{
+            pt: 4,
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            flexWrap: "wrap",
+            gap: 3,
+          }}
+        >
+          {toppingsData.map((topping, index) => {
+            const { name, description, _id } = topping;
+            return (
+              <ToppingCard
+                key={index}
+                toppingId={_id}
+                name={name}
+                description={description}
+              />
+              // <div key={id}>
+              //   <p>Item: {name}</p>
+              //   <p>Description: {description}</p>
+              // </div>
+            );
+          })}
+        </Box>
       </MainContainer>
     );
   }

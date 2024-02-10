@@ -1,9 +1,19 @@
 import { useState } from "react";
 
-import { Box, Typography, MenuItem, InputLabel, Button } from "@mui/material";
+import {
+  TextField,
+  Typography,
+  Button,
+  Box,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Chip
+} from "@mui/material";
 import Select from "react-select";
 import { FormModal } from "../../Components";
 import { api } from "../../api";
+import pizzaImg from "../../assets/pizza.jpg"
 
 export default function PizzaCard({
   name,
@@ -18,31 +28,29 @@ export default function PizzaCard({
   const [modalOpen, setModalOpen] = useState(false);
   const formContent = () => {
     return (
-      <>
-        <label>Pizza Name</label>
-        <input
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <Typography variant="body1">Pizza Name</Typography>
+        <TextField
           type="text"
+          variant="outlined"
           onChange={(e) => setPizzaName(e.target.value)}
           value={pizzaName}
         />
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="8"
+        <Typography variant="body1">Description</Typography>
+        <TextField
+          multiline
+          rows={4}
+          variant="outlined"
           onChange={(e) => setPizzaDescription(e.target.value)}
           value={pizzaDescription}
-        ></textarea>
-
-        <div>
-          Current Toppings:
+        />
+        <Typography variant="body1">Current Toppings</Typography>
+        <Typography>
           {completeToppingsData
-            .map((topping, index) => {
-              return topping.name;
-            })
+            .map((topping, index) => topping.name)
             .join(", ")}
-        </div>
-        <InputLabel id="demo-multiple-name-label">Choose toppings</InputLabel>
+        </Typography>
+        <InputLabel>Choose toppings</InputLabel>
         <Select
           isMulti
           // TODO: Find a way to show existing toppings inside select components
@@ -54,9 +62,13 @@ export default function PizzaCard({
             return { value: topping._id, label: topping.name };
           })}
         />
-        <Button onClick={editPizza}>Update</Button>
-        <Button onClick={deletePizza}>Delete</Button>
-      </>
+        <Button variant="contained" onClick={editPizza}>
+          Update
+        </Button>
+        <Button variant="contained" onClick={deletePizza}>
+          Delete
+        </Button>
+      </Box>
     );
   };
   const editPizza = async () => {
@@ -65,9 +77,9 @@ export default function PizzaCard({
       description: pizzaDescription,
       toppings: pizzaToppings,
     };
- if(pizzaToppings.length === 0){
-    delete body.toppings
- }
+    if (pizzaToppings.length === 0) {
+      delete body.toppings;
+    }
     const options = {
       method: "PUT",
       body: JSON.stringify(body),
@@ -82,7 +94,6 @@ export default function PizzaCard({
       // TODO: trigger refetch
       if (response.ok) {
         setModalOpen(false);
-
       }
     } catch (err) {}
   };
@@ -97,26 +108,47 @@ export default function PizzaCard({
     const response = await fetch(`${api}/pizzas/${pizzaId}`, options);
 
     try {
-        // TODO: trigger refetch
+      // TODO: trigger refetch
       if (response.ok) {
         setModalOpen(false);
-
       }
     } catch (err) {}
   };
   return (
+    <Paper
+      onClick={() => setModalOpen(true)}
+      elevation={5}
+      sx={{
+        display: "flex",
+        // flexDirection: { xs: "row", md: "column" },
+        flexDirection: "column" ,
+        // justifyContent: "space-between", 
+        alignItems: "center",
+        width: { xs: 1, lg: "23%" },
+        py: 2,
+        px: 4,
+        my: 2,
+        borderRadius: "8px",
+        "&:hover": {
+          boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
+          cursor: "pointer",
+        },
+      }}
+    >
+
     <Box onClick={() => setModalOpen(true)}>
-      <h4>{name}</h4>
-      <p>{description}</p>
+    <img src={pizzaImg} alt="" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+      <Typography variant="h4" sx={{mt:1, fontWeight: "bold"}}>{name}</Typography>
+      <Typography sx={{my:2 }}>{description}</Typography>
       {completeToppingsData.map((topping, index) => {
-        return <p key={index}>{topping.name}</p>;
+        return <Chip key={index} label={topping.name} variant="outlined" color="primary" sx={{mr:1, my:1}}/>;
       })}
       <FormModal
         formContent={formContent}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
-        
       />
     </Box>
+    </Paper>
   );
 }
