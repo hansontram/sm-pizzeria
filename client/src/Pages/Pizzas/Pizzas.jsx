@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { MainContainer, FormModal } from "../../Components";
+import { MainContainer, FormModal, PizzaCard } from "../../Components";
 import { Box, Typography, MenuItem, InputLabel, Button } from "@mui/material";
 import Select from "react-select";
 import { useTheme } from "@mui/material/styles";
+import { api } from "../../api";
 
 export default function Pizzas({ pizzaData, toppingsData, role }) {
   const [pizzaName, setPizzaName] = useState("");
@@ -11,13 +12,50 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
   const [pizzaToppings, setPizzaToppings] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => console.log(pizzaToppings), [pizzaToppings]);
+  // useEffect(() => console.log(pizzaToppings), [pizzaToppings]);
 
-  // Create function for post request to add Pizza {name, description, toppings}
+  const formatToppings = (idArray, objectArray) => {
+    const result = [...idArray];
+    // console.log("result",result)
+
+    for (let i = 0; i < result.length; i++) {
+      let matchedTopping = objectArray.find(
+        (topping) => result[i] === topping._id
+      );
+      // console.log("match", matchedTopping, "result i: ",result[i])
+      if (matchedTopping) {
+        result[i] = matchedTopping;
+      }
+    }
+    return result;
+  };
+
   const addNewPizza = async () => {
-    //declare payload variable {} and convert to json( JSON.stringify)
-    //post call to URL
-    //after post call completion, close modal by doing "setModalOpen(false)""
+    const body = {
+      name: pizzaName,
+      description: pizzaDescription,
+      toppings: pizzaToppings,
+    };
+
+    const options = {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(`${api}/pizzas`, options);
+    try {
+      // response.json().then((newPizza) => console.log(newPizza));
+
+      // TODO: trigger refetch
+      if (response.ok) {
+        setModalOpen(false);
+        setPizzaName("");
+        setPizzaDescription("");
+        setPizzaToppings([]);
+      }
+    } catch (err) {}
   };
 
   const formContent = () => {
@@ -64,15 +102,16 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
     return (
       <MainContainer title="Pizza Dashboard">
         {pizzaData.map((pizza, index) => {
-          const { name, description } = pizza;
+          const { name, description, toppings, _id } = pizza;
           return (
-            <div key={index}>
-              <p>Name: {name}</p>
-              <p>Description: {description}</p>
-
-              {/* TODO: Render toppings data - loop through data to match ids : 
-              fetch topping, fetch pizza, set to state, create function to iterate over toppings data of a pizza, convert all ids to respective topping data */}
-            </div>
+            <PizzaCard
+              key={index}
+              name={name}
+              description={description}
+              completeToppingsData={formatToppings(toppings, toppingsData)}
+              options={toppingsData}
+              pizzaId={_id}
+            />
           );
         })}
 
@@ -80,6 +119,7 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
           formContent={formContent}
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
+          buttonText = "Create Pizza"
         />
       </MainContainer>
     );

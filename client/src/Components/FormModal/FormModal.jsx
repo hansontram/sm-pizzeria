@@ -13,13 +13,19 @@ const style = {
   p: 4,
 };
 
-export default function FormModal({ formContent, modalOpen, setModalOpen }) {
+export default function FormModal({
+  formContent,
+  modalOpen,
+  setModalOpen,
+  buttonText,
+}) {
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      {buttonText && <Button onClick={handleOpen}>{buttonText}</Button>}
+
       <Modal
         open={modalOpen}
         onClose={handleClose}
