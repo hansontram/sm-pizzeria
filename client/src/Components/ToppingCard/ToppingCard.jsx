@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Box,
-  InputLabel,
   Button,
   Paper,
   Typography,
@@ -26,7 +25,7 @@ export default function ToppingCard({ name, description, toppingId }) {
           onChange={(e) => setToppingName(e.target.value)}
           value={toppingName}
         />
-         <Typography variant="body1">Description</Typography>
+        <Typography variant="body1">Description</Typography>
         <TextField
           multiline
           rows={4}
@@ -46,21 +45,25 @@ export default function ToppingCard({ name, description, toppingId }) {
   };
 
   const deleteTopping = async () => {
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const response = await fetch(`${api}/toppings/${toppingId}`, options);
+    const confirmed = window.confirm(`Delete ${name} ?`);
 
-    try {
-      // TODO: trigger refetch
-      if (response.ok) {
-        setModalOpen(false);
+    if (confirmed) {
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await fetch(`${api}/toppings/${toppingId}`, options);
+
+      try {
+        if (response.ok) {
+          setModalOpen(false);
+          window.location.reload();
+        }
+      } catch (err) {
+        console.log("Delete Error:", err);
       }
-    } catch (err) {
-      console.log("Delete Error:", err);
     }
   };
 
@@ -79,9 +82,9 @@ export default function ToppingCard({ name, description, toppingId }) {
     };
     const response = await fetch(`${api}/toppings/${toppingId}`, options);
     try {
-      // TODO: trigger refetch
       if (response.ok) {
         setModalOpen(false);
+        window.location.reload();
       }
     } catch (err) {}
   };
@@ -92,9 +95,7 @@ export default function ToppingCard({ name, description, toppingId }) {
       elevation={5}
       sx={{
         display: "flex",
-        // flexDirection: { xs: "row", md: "column" },
         flexDirection: "column",
-        // justifyContent: "space-between",
         alignItems: "center",
         width: { xs: 1, lg: "23%" },
         py: 4,

@@ -7,6 +7,7 @@ export default function Toppings({ toppingsData, role }) {
   const [toppingName, setToppingName] = useState("");
   const [toppingDescription, setToppingDescription] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [postErrorMessage, setPostErrorMessage] = useState('')
 
   const formContent = () => {
     return (
@@ -29,6 +30,7 @@ export default function Toppings({ toppingsData, role }) {
         <Button variant="contained" onClick={addNewTopping}>
           Submit
         </Button>
+        {postErrorMessage && <Typography sx={{color: "red"}}>{postErrorMessage}</Typography>}
       </Box>
     );
   };
@@ -48,13 +50,14 @@ export default function Toppings({ toppingsData, role }) {
     };
     const response = await fetch(`${api}/toppings`, options);
     try {
-      // response.json().then((newPizza) => console.log(newPizza));
-
-      // TODO: trigger refetch
       if (response.ok) {
         setModalOpen(false);
         setToppingName("");
         setToppingDescription("");
+        alert(`${body.name} added successfully`);
+        window.location.reload();
+      } else if(response.status === 409){
+        setPostErrorMessage('Oops! Duplicate topping. Choose a different name.')
       }
     } catch (err) {}
   };
@@ -75,6 +78,7 @@ export default function Toppings({ toppingsData, role }) {
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
           buttonText="Add Topping"
+          postErrorMessage = {postErrorMessage}
         />
 
         <Box
@@ -95,10 +99,7 @@ export default function Toppings({ toppingsData, role }) {
                 name={name}
                 description={description}
               />
-              // <div key={id}>
-              //   <p>Item: {name}</p>
-              //   <p>Description: {description}</p>
-              // </div>
+
             );
           })}
         </Box>

@@ -1,16 +1,9 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { Button, Box, Typography} from "@mui/material";
 import { MainContainer } from "../../Components";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-// import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
 import LocalPizzaIcon from '@mui/icons-material/LocalPizza';
@@ -25,15 +18,6 @@ export default function Home({ setRole }) {
 
   return (
     <MainContainer>
-      {/* <Box></Box>
-      <Box>
-        <Link to="/toppings">
-          <Button onClick={() => setRole("owner")}>Owner</Button>
-        </Link>
-        <Link to="/pizzas">
-          <Button onClick={() => setRole("chef")}>Chef</Button>
-        </Link>
-      </Box> */}
 
       <Container component="main" maxWidth="s">
      
@@ -50,9 +34,9 @@ export default function Home({ setRole }) {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LocalPizzaIcon />
           </Avatar>
-          <Typography component="h1" variant="h4" sx={{ textTransform: 'uppercase' }}>
+          <Typography component="h1" variant="h3" sx={{ textTransform: 'uppercase' }}>
           Welcome to StrongMind Pizzeria!</Typography>
-          <Typography>
+          <Typography sx={{ fontSize: 22 }}>
           Are you ready to take the reins as an Owner or innovate as a Chef?          </Typography>
           <Box sx={{ mt: 1 }}>
             <Link to="/toppings">

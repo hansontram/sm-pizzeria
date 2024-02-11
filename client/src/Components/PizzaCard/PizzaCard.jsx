@@ -6,14 +6,13 @@ import {
   Button,
   Box,
   InputLabel,
-  MenuItem,
   Paper,
-  Chip
+  Chip,
 } from "@mui/material";
 import Select from "react-select";
 import { FormModal } from "../../Components";
 import { api } from "../../api";
-import pizzaImg from "../../assets/pizza.jpg"
+import pizzaImg from "../../assets/pizza.jpg";
 
 export default function PizzaCard({
   name,
@@ -89,16 +88,18 @@ export default function PizzaCard({
     };
     const response = await fetch(`${api}/pizzas/${pizzaId}`, options);
     try {
-      // response.json().then((newPizza) => console.log(newPizza));
-
-      // TODO: trigger refetch
       if (response.ok) {
         setModalOpen(false);
+        window.location.reload();
       }
     } catch (err) {}
   };
 
   const deletePizza = async () => {
+    const confirmed = window.confirm(`Delete ${name} ?`);
+
+    if (confirmed) {
+   
     const options = {
       method: "DELETE",
       headers: {
@@ -108,12 +109,12 @@ export default function PizzaCard({
     const response = await fetch(`${api}/pizzas/${pizzaId}`, options);
 
     try {
-      // TODO: trigger refetch
       if (response.ok) {
         setModalOpen(false);
+        window.location.reload();
       }
     } catch (err) {}
-  };
+  }};
   return (
     <Paper
       onClick={() => setModalOpen(true)}
@@ -121,8 +122,8 @@ export default function PizzaCard({
       sx={{
         display: "flex",
         // flexDirection: { xs: "row", md: "column" },
-        flexDirection: "column" ,
-        // justifyContent: "space-between", 
+        flexDirection: "column",
+        // justifyContent: "space-between",
         alignItems: "center",
         width: { xs: 1, lg: "23%" },
         py: 2,
@@ -133,22 +134,35 @@ export default function PizzaCard({
           boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
           cursor: "pointer",
         },
-      }}
+      }} 
     >
-
-    <Box onClick={() => setModalOpen(true)}>
-    <img src={pizzaImg} alt="" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-      <Typography variant="h4" sx={{mt:1, fontWeight: "bold"}}>{name}</Typography>
-      <Typography sx={{my:2 }}>{description}</Typography>
-      {completeToppingsData.map((topping, index) => {
-        return <Chip key={index} label={topping.name} variant="outlined" color="primary" sx={{mr:1, my:1}}/>;
-      })}
-      <FormModal
-        formContent={formContent}
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-      />
-    </Box>
+      <Box onClick={() => setModalOpen(true)}>
+        <img
+          src={pizzaImg}
+          alt=""
+          style={{ maxWidth: "100%", borderRadius: "8px" }}
+        />
+        <Typography variant="h4" sx={{ mt: 1, fontWeight: "bold" }}>
+          {name}
+        </Typography>
+        <Typography sx={{ my: 2 }}>{description}</Typography>
+        {completeToppingsData.map((topping, index) => {
+          return (
+            <Chip
+              key={index}
+              label={topping.name}
+              variant="outlined"
+              color="primary"
+              sx={{ mr: 1, my: 1 }}
+            />
+          );
+        })}
+        <FormModal
+          formContent={formContent}
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+        />
+      </Box>
     </Paper>
   );
 }

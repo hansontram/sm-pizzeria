@@ -29,12 +29,7 @@ export default function Header(props) {
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit',  }}>
           <Button color="inherit">Home</Button>
         </Link>
-        {/* <Link to="/pizzas">
-          <Button color="inherit">Pizzas</Button>
-        </Link>
-        <Link to="/toppings">
-          <Button color="inherit">Toppings</Button>
-        </Link> */}
+
       </div>
     </AppBar>
   );

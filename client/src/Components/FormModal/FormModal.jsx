@@ -11,7 +11,7 @@ const style = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 4
+  p: 4,
 };
 
 export default function FormModal({
@@ -37,7 +37,7 @@ export default function FormModal({
         <Box sx={style}>
           {formContent ? formContent() : <div>Please Provide Form Content</div>}
         </Box>
-      
+
       </Modal>
     </div>
   );

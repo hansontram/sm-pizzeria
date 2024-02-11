@@ -16,9 +16,6 @@ function App() {
     fetchToppings();
   }, []);
 
-  useEffect(() => {
-    console.log(role);
-  }, [role]);
 
   const fetchPizzas = async () => {
     const response = await fetch(`${api}/pizzas`);
