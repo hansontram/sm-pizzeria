@@ -31,7 +31,39 @@ module.exports = {
     } catch (err) {
       console.log("Create Pizza Error: ", err);
     }
+
+    // TODO: Add validation to not allow pizzas with the same toppings
+    // try {
+    //   // Check if the pizza name is duplicated
+    //   const existingPizza = await Pizzas.findOne({ name: req.body.name });
+    //   if (existingPizza) {
+    //     return res.status(409).send("Duplicate pizza");
+    //   }
+
+    //   // Check if any other pizza already has the same toppings
+    //   const existingToppings = await Pizzas.find({
+    //     toppings: { $all: req.body.toppings },
+    //   });
+
+    //   if (existingToppings.length > 0) {
+    //     return res
+    //       .status(409)
+    //       .send("One or more toppings already used by another pizza");
+    //   }
+
+    //   // If no duplicates found, create the new pizza
+    //   const newPizza = await Pizzas.create({
+    //     name: req.body.name,
+    //     description: req.body.description,
+    //     toppings: req.body.toppings,
+    //   });
+    //   return res.status(200).json(newPizza);
+    // } catch (err) {
+    //   console.log("Create Pizza Error: ", err);
+    //   return res.status(500).send("Internal Server Error");
+    // }
   },
+
   // Update an existing pizza
   updatePizza: async (req, res) => {
     try {
