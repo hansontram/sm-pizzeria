@@ -64,7 +64,7 @@ export default function Toppings({ toppingsData, role }) {
 
   if (role === "chef") {
     return (
-      <MainContainer title="Topping dashboard">
+      <MainContainer title="Chef dashboard">
         <div>
           <p>Topping dashboard is only accessible to owner</p>
         </div>
@@ -72,7 +72,8 @@ export default function Toppings({ toppingsData, role }) {
     );
   } else {
     return (
-      <MainContainer title="Toppings Dashboard">
+      <MainContainer title="Owner Dashboard">
+        <Typography variant="h6" sx={{mb:4, color:"grey"}}>Welcome back owner, stock up your toppings for your chefs!</Typography>
         <FormModal
           formContent={formContent}
           modalOpen={modalOpen}
@@ -85,7 +86,7 @@ export default function Toppings({ toppingsData, role }) {
           sx={{
             pt: 4,
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: { xs: "column", sm: "row" },
             flexWrap: "wrap",
             gap: 3,
           }}

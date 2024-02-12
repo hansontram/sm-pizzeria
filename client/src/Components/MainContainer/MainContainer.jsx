@@ -1,9 +1,9 @@
-import { Box, Typography,Container } from "@mui/material";
+import {Typography,Container } from "@mui/material";
 
 export default function MainContainer({ title, children }) {
   return (
     <Container>
-      <Typography variant="h1" component="div">
+      <Typography variant="h2" component="div" sx={{my:5}}>
         {title}
       </Typography>
       {children}

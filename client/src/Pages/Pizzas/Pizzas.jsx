@@ -101,7 +101,7 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
 
   if (role === "owner") {
     return (
-      <MainContainer title="Pizza dashboard">
+      <MainContainer title="Owner Dashboard">
         <div>
           <p>Pizza dashboard is only accessible to chef</p>
         </div>
@@ -109,7 +109,7 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
     );
   } else {
     return (
-      <MainContainer title="Pizza Dashboard" 
+      <MainContainer title="Chef Dashboard" 
       
       >
         <FormModal
@@ -124,7 +124,7 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
           sx={{
             pt: 4,
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: { xs: "column", sm: "row" },
             flexWrap: "wrap",
             gap: 3,
           }}

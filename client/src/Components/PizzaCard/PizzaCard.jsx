@@ -121,11 +121,9 @@ export default function PizzaCard({
       elevation={5}
       sx={{
         display: "flex",
-        // flexDirection: { xs: "row", md: "column" },
         flexDirection: "column",
-        // justifyContent: "space-between",
         alignItems: "center",
-        width: { xs: 1, lg: "23%" },
+        width: { xs: 1, md: "30%", lg:"23%" },
         py: 2,
         px: 4,
         my: 2,

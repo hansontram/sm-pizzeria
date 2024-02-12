@@ -97,7 +97,7 @@ export default function ToppingCard({ name, description, toppingId }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: { xs: 1, lg: "23%" },
+        width: { xs: 1, md: "30%", lg:"23%" },
         py: 4,
         px: 4,
         my: 2,

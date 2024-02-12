@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button, Box, Typography, Modal } from "@mui/material";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -25,7 +24,16 @@ export default function FormModal({
 
   return (
     <div>
-      {buttonText && <Button onClick={handleOpen}>{buttonText}</Button>}
+      {buttonText && (
+        <Button
+          onClick={handleOpen}
+          sx={{
+            fontSize: "1.3rem",
+          }}
+        >
+          {buttonText}
+        </Button>
+      )}
 
       <Modal
         open={modalOpen}
@@ -33,11 +41,9 @@ export default function FormModal({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-     
         <Box sx={style}>
           {formContent ? formContent() : <div>Please Provide Form Content</div>}
         </Box>
-
       </Modal>
     </div>
   );
