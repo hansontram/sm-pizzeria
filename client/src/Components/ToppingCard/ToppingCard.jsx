@@ -9,7 +9,7 @@ import {
 
 import { FormModal } from "../../Components";
 import { api } from "../../api";
-import ingredientImg from "../../assets/ingredients.jpeg";
+import ingredientImg from "../../assets/ingredients.jpg";
 
 export default function ToppingCard({ name, description, toppingId, fetchToppings }) {
   const [toppingName, setToppingName] = useState(name);
