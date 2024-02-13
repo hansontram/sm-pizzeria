@@ -11,7 +11,7 @@ import { FormModal } from "../../Components";
 import { api } from "../../api";
 import ingredientImg from "../../assets/ingredients.jpeg";
 
-export default function ToppingCard({ name, description, toppingId }) {
+export default function ToppingCard({ name, description, toppingId, fetchToppings }) {
   const [toppingName, setToppingName] = useState(name);
   const [toppingDescription, setToppingDescription] = useState(description);
   const [modalOpen, setModalOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function ToppingCard({ name, description, toppingId }) {
       try {
         if (response.ok) {
           setModalOpen(false);
-          window.location.reload();
+          fetchToppings();
         }
       } catch (err) {
         console.log("Delete Error:", err);
@@ -84,7 +84,7 @@ export default function ToppingCard({ name, description, toppingId }) {
     try {
       if (response.ok) {
         setModalOpen(false);
-        window.location.reload();
+        fetchToppings();
       }
     } catch (err) {}
   };

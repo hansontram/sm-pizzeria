@@ -1,13 +1,14 @@
 import { React, useState } from "react";
 import { TextField, Typography, Button, Box } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import { MainContainer, FormModal, ToppingCard } from "../../Components";
 import { api } from "../../api";
 
-export default function Toppings({ toppingsData, role }) {
+export default function Toppings({ toppingsData, role, loading, fetchToppings }) {
   const [toppingName, setToppingName] = useState("");
   const [toppingDescription, setToppingDescription] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [postErrorMessage, setPostErrorMessage] = useState('')
+  const [postErrorMessage, setPostErrorMessage] = useState("");
 
   const formContent = () => {
     return (
@@ -30,7 +31,9 @@ export default function Toppings({ toppingsData, role }) {
         <Button variant="contained" onClick={addNewTopping}>
           Submit
         </Button>
-        {postErrorMessage && <Typography sx={{color: "red"}}>{postErrorMessage}</Typography>}
+        {postErrorMessage && (
+          <Typography sx={{ color: "red" }}>{postErrorMessage}</Typography>
+        )}
       </Box>
     );
   };
@@ -54,10 +57,13 @@ export default function Toppings({ toppingsData, role }) {
         setModalOpen(false);
         setToppingName("");
         setToppingDescription("");
-        alert(`${body.name} added successfully`);
-        window.location.reload();
-      } else if(response.status === 409){
-        setPostErrorMessage('Oops! Duplicate topping. Choose a different name.')
+        // TODO: Show success message with state 
+        // alert(`${body.name} added successfully`);
+        fetchToppings();
+      } else if (response.status === 409) {
+        setPostErrorMessage(
+          "Oops! Duplicate topping. Choose a different name."
+        );
       }
     } catch (err) {}
   };
@@ -73,37 +79,45 @@ export default function Toppings({ toppingsData, role }) {
   } else {
     return (
       <MainContainer title="Owner Dashboard">
-        <Typography variant="h6" sx={{mb:4, color:"grey"}}>Welcome back owner, stock up your toppings for your chefs!</Typography>
-        <FormModal
-          formContent={formContent}
-          modalOpen={modalOpen}
-          setModalOpen={setModalOpen}
-          buttonText="Add Topping"
-          postErrorMessage = {postErrorMessage}
-        />
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <Typography variant="h6" sx={{ mb: 4, color: "grey" }}>
+              Welcome back owner, stock up your toppings for your chefs!
+            </Typography>
+            <FormModal
+              formContent={formContent}
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              buttonText="Add Topping"
+              postErrorMessage={postErrorMessage}
+            />
 
-        <Box
-          sx={{
-            pt: 4,
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            flexWrap: "wrap",
-            gap: 3,
-          }}
-        >
-          {toppingsData.map((topping, index) => {
-            const { name, description, _id } = topping;
-            return (
-              <ToppingCard
-                key={index}
-                toppingId={_id}
-                name={name}
-                description={description}
-              />
-
-            );
-          })}
-        </Box>
+            <Box
+              sx={{
+                pt: 4,
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                flexWrap: "wrap",
+                gap: 3,
+              }}
+            >
+              {toppingsData.map((topping, index) => {
+                const { name, description, _id } = topping;
+                return (
+                  <ToppingCard
+                    key={index}
+                    toppingId={_id}
+                    name={name}
+                    description={description}
+                    fetchToppings={fetchToppings}
+                  />
+                );
+              })}
+            </Box>
+          </>
+        )}
       </MainContainer>
     );
   }

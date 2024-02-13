@@ -20,6 +20,8 @@ export default function PizzaCard({
   completeToppingsData,
   options,
   pizzaId,
+  loading, 
+  fetchPizzas
 }) {
   const [pizzaName, setPizzaName] = useState(name);
   const [pizzaDescription, setPizzaDescription] = useState(description);
@@ -90,7 +92,7 @@ export default function PizzaCard({
     try {
       if (response.ok) {
         setModalOpen(false);
-        window.location.reload();
+        fetchPizzas()
       }
     } catch (err) {}
   };
@@ -111,7 +113,7 @@ export default function PizzaCard({
     try {
       if (response.ok) {
         setModalOpen(false);
-        window.location.reload();
+        fetchPizzas()
       }
     } catch (err) {}
   }};

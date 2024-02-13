@@ -1,28 +1,20 @@
 import React, { useEffect, useState } from "react";
 
 import { MainContainer, FormModal, PizzaCard } from "../../Components";
-import {
-  Box,
-  Typography,
-  InputLabel,
-  Button,
-  TextField,
-} from "@mui/material";
+import { Box, Typography, InputLabel, Button, TextField } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 import Select from "react-select";
 import { api } from "../../api";
 
-export default function Pizzas({ pizzaData, toppingsData, role }) {
+export default function Pizzas({ pizzaData, toppingsData, role, loading,fetchPizzas}) {
   const [pizzaName, setPizzaName] = useState("");
   const [pizzaDescription, setPizzaDescription] = useState("");
   const [pizzaToppings, setPizzaToppings] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  
 
- 
 
   const formatToppings = (idArray, objectArray) => {
     const result = [...idArray];
-
 
     for (let i = 0; i < result.length; i++) {
       let matchedTopping = objectArray.find(
@@ -36,6 +28,7 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
   };
 
   const addNewPizza = async () => {
+
     const body = {
       name: pizzaName,
       description: pizzaDescription,
@@ -50,18 +43,17 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
       },
     };
     const response = await fetch(`${api}/pizzas`, options);
+    
     try {
-
       if (response.ok) {
         setModalOpen(false);
         setPizzaName("");
         setPizzaDescription("");
         setPizzaToppings([]);
         alert(`${body.name} added successfully`);
-        window.location.reload();
+        fetchPizzas()
       }
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   const formContent = () => {
@@ -109,40 +101,49 @@ export default function Pizzas({ pizzaData, toppingsData, role }) {
     );
   } else {
     return (
-      <MainContainer title="Chef Dashboard" 
-      
-      >
-        <FormModal
-          formContent={formContent}
-          modalOpen={modalOpen}
-          setModalOpen={setModalOpen}
-          buttonText="Create Pizza"
-          sx={{ mt: 4 }}
-        />
+      <MainContainer title="Chef Dashboard">
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <FormModal
+              formContent={formContent}
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              buttonText="Create Pizza"
+              sx={{ mt: 4 }}
+            />
 
-        <Box
-          sx={{
-            pt: 4,
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            flexWrap: "wrap",
-            gap: 3,
-          }}
-        >
-          {pizzaData.map((pizza, index) => {
-            const { name, description, toppings, _id } = pizza;
-            return (
-              <PizzaCard
-                key={index}
-                name={name}
-                description={description}
-                completeToppingsData={formatToppings(toppings, toppingsData)}
-                options={toppingsData}
-                pizzaId={_id}
-              />
-            );
-          })}
-        </Box>
+            <Box
+              sx={{
+                pt: 4,
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                flexWrap: "wrap",
+                gap: 3,
+              }}
+            >
+              {pizzaData.map((pizza, index) => {
+                const { name, description, toppings, _id } = pizza;
+                return (
+                  <PizzaCard
+                    key={index}
+                    name={name}
+                    description={description}
+                    completeToppingsData={formatToppings(
+                      toppings,
+                      toppingsData
+                    )}
+                    options={toppingsData}
+                    pizzaId={_id}
+                    loading={loading}
+                    fetchPizzas={fetchPizzas}
+                  />
+                );
+              })}
+            </Box>
+          </>
+        )}
       </MainContainer>
     );
   }
