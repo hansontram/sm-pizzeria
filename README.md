@@ -3,6 +3,7 @@ StrongMind Pizzeria is a fullstack web application that allows a pizza shop owne
 
 Live Site: https://strongmindpizza.netlify.app/
 - Frontend is hosted on netlify & api is hosted on [render](https://strong-pizza-backend.onrender.com/). 
+- ** Upon first load of data, api can delay requests up to 50 seconds due to spin down with inactivity.
 
 
 ### Features:
